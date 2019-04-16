@@ -1,0 +1,33 @@
+// File Name: SingMulThread.java
+public class SingMulThread {
+
+   public static void main(String[] args) {
+      Singleton tmp = Singleton.getInstance( );
+      tmp.demoMethod( );
+   }
+}
+
+public class Singleton {
+    private static Singleton _instance = null;
+    private static bool flag = false;
+     
+    private Singleton() {}
+     
+    public static Singleton getInstance() {
+        if (!flag) {
+            acquire_lock();
+            if (!flag) {
+                _instance = new Singleton();
+                memory_barrier();
+                flag = true;
+            }
+            release_lock();
+        }
+         
+        return _instance;
+    }
+}
+/* Other methods protected by singleton-ness */
+   protected static void demoMethod( ) {
+      System.out.println("demoMethod for singleton");
+   }
